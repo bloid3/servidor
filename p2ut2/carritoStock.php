@@ -1,5 +1,7 @@
 <?php
 	session_start();
+	if ($_SESSION["user"]  != "pablo" || $_SESSION["pass"] != "12345")
+		header("Location: http://www.pabloweb.com/workspace/servidor/p2ut2/login.php");
 	echo "CARRITO";
 	$pdo = new PDO("mysql:dbname=discos;host=localhost","pablito","12345");
 	echo "<form action=carritoStock.php method=post>";
@@ -29,21 +31,16 @@
 					$stmt->execute($data);
 				}
 			}
-			echo "El precio de la cesta es: " . $_SESSION["totalP"] . " €";
-			echo "<input type=submit name=vaciar value=VaciarCesta>";
 		}
-		if (isset($_POST["vaciar"])) {
-			$_SESSION["totalP"] = 0;
-			if ($consulta = $pdo->query("SELECT * from discos")) {
-				while ($registro = $consulta->fetch()) {
-					if ($_POST["n_" . $registro["id"]]) {
-						$data =['stock' => $registro["stock"] + $_SESSION["nPedido_" . $registro["id"]]];
-						echo $data;
-						$sql = "UPDATE discos SET stock=:stock where id=" . $registro["id"];
-						$stmt = $pdo->prepare($sql);
-						$stmt->execute($data);
-					}
-				}
+	}
+	if (isset($_POST["vaciar"])) {
+		$_SESSION["totalP"] = 0;
+		if ($consulta = $pdo->query("SELECT * from discos")) {
+			while ($registro = $consulta->fetch()) {
+				$data =['stock' => $registro["stock"] + $_SESSION["nPedido_" . $registro["id"]]];
+				$sql = "UPDATE discos SET stock=:stock where id=" . $registro["id"];
+				$stmt = $pdo->prepare($sql);
+				$stmt->execute($data);
 			}
 		}
 	}
@@ -75,6 +72,15 @@
 		}
 	}
 	echo "</table>";
-	echo "<input type=submit value=Añadir name=añadir>";
+	echo "<input type=submit value=Añadir name=añadir><br>";
+	if (isset($_POST["añadir"])) {
+		echo "El precio de la cesta es: " . $_SESSION["totalP"] . " € <br>";
+		echo "<input type=submit name='vaciar' value=VaciarCesta><br>";
+		echo "¿Desea confirmar pedido?<br>";
+		echo "<input type=submit value='Confirmar pedido' name='confirmarP'>";
+	}
+	if (isset($_POST["confirmarP"])) {
+		echo "PEDIDO CONFIRMADO, MUCHAS GRACIAS :D";
+	}
 	echo "</form>";
 ?>

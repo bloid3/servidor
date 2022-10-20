@@ -33,7 +33,8 @@
 			echo "<br>";
 			echo "<a href=http://www.pabloweb.com/workspace/servidor/p2ut2/viewstock.php>Visualización de stock</a>";
 			echo "<br>";
-			echo "<a href=http://www.pabloweb.com/workspace/servidor/p2ut2/modStock.php>Modificación de stock</a>";
+			echo "<a href=http://www.pabloweb.com/workspace/servidor/p2ut2/modStock.php>Modificación de stock</a><br>";
+			echo "<a href=http://www.pabloweb.com/workspace/servidor/p2ut2/carritoStock.php>Pedidos</a>";
 		}
 	?>
 </body>
