@@ -26,5 +26,5 @@
 			echo "</tr>";
 		}
 	}
-	echo "</table>";
+	echo "</table><br>";
 ?>

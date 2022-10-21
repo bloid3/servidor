@@ -44,4 +44,29 @@
 	echo "</table>";
 	echo "<input type=submit value=Actualizar name=actualizar>";
 	echo "</form>";
+	echo "¿Desea añadir o quitar algún producto?<br>";
+	echo "<form action=modStock.php method=post><br>";
+	echo "<input type=submit name=anadir value=Añadir>";
+	echo "<input type=submit name=quitar value=Quitar>";
+	if (isset($_POST["anadir"])) {
+		echo <<< FIN
+		<br>
+		Nombre: <input type="text" name="nombre"><br>
+		Autor: <input type="text" name="autor"><br>
+		Genero: <input type="text" name="genero"><br>
+		Stock: <input type="number" min=0 name="stock"><br>
+		Precio: <input type=number name=precio><br>
+		<input type=submit name=confirmar value=Confirmar>
+		FIN;
+		if (isset($_POST["confirmar"])) {
+			$numeroF = rowCount();
+			$insert = "INSERT into discos values(" . $_POST["nombre"] . "," . $_POST["autor"]. ",".$_POST["genero"].",".$_POST["stock"].",".$_POST["precio"].",".$numerF+1;
+			$stmt = $pdo->prepare($insert);
+			$stmt->execute();
+			echo "INSERTADO CON EXITO"
+		}
+	}
+
+	
+	echo "</form>";
 ?>
