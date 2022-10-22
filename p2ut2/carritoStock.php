@@ -20,17 +20,24 @@
 		$_POST["n_9"] = 0;
 	}
 	if (isset($_POST["añadir"])) {
-		if ($consulta = $pdo->query("SELECT * from discos")) {
-			while ($registro = $consulta->fetch()) {
-				if ($_POST["n_" . $registro["id"]] != 0) {
-					$_SESSION["totalP"] += $registro["precio"] * intval($_POST["n_" . $registro["id"]]);
-					$_SESSION["nPedido_" . $registro["id"]] = intval($_POST["n_" . $registro["id"]]);
-					$data =['stock' => $registro["stock"] - $_SESSION["nPedido_" . $registro["id"]]];
-					$sql = "UPDATE discos SET stock=:stock where id=" . $registro["id"];
-					$stmt = $pdo->prepare($sql);
-					$stmt->execute($data);
+		try {
+			$pdo -> beginTransaction();
+			if ($consulta = $pdo->query("SELECT * from discos")) {
+				while ($registro = $consulta->fetch()) {
+					if ($_POST["n_" . $registro["id"]] != 0) {
+						$_SESSION["totalP"] += $registro["precio"] * intval($_POST["n_" . $registro["id"]]);
+						$_SESSION["nPedido_" . $registro["id"]] = intval($_POST["n_" . $registro["id"]]);
+						$data =['stock' => $registro["stock"] - $_SESSION["nPedido_" . $registro["id"]]];
+						$sql = "UPDATE discos SET stock=:stock where id=" . $registro["id"];
+						$stmt = $pdo->prepare($sql);
+						$stmt->execute($data);
+					}
 				}
 			}
+			$pdo -> commit();
+		} catch(Exception $e) {
+			$pdo -> rollback();
+			echo "Error al añadir: " . $e;
 		}
 	}
 	if (isset($_POST["vaciar"])) {
@@ -66,7 +73,7 @@
 			echo "$registro[precio] €";
 			echo "</td>";
 			echo "<td>";
-			echo "<input type=number name='n_" . $registro["id"] . "' max=" . $stock . ">";
+			echo "<input type=number name='n_" . $registro["id"] . "' min=0 max=" . $stock . ">";
 			echo "</td>";
 			echo "</tr>";
 		}

@@ -20,6 +20,7 @@
 			echo "Actualizado";
 		}
 	}
+	$i = 0;
 	if ($consulta = $pdo->query("SELECT * from discos")) {
 		while ($registro = $consulta->fetch()) {
 			$stock = $registro["stock"];
@@ -39,6 +40,7 @@
 			echo "<td>";
 			echo "$registro[precio] €";
 			echo "</tr>";
+			$i++;
 		}
 	}
 	echo "</table>";
@@ -58,12 +60,31 @@
 		Precio: <input type=number name=precio><br>
 		<input type=submit name=confirmar value=Confirmar>
 		FIN;
-		if (isset($_POST["confirmar"])) {
-			$numeroF = rowCount();
-			$insert = "INSERT into discos values(" . $_POST["nombre"] . "," . $_POST["autor"]. ",".$_POST["genero"].",".$_POST["stock"].",".$_POST["precio"].",".$numerF+1;
-			$stmt = $pdo->prepare($insert);
-			$stmt->execute();
-			echo "INSERTADO CON EXITO"
+	}
+	if (isset($_POST["confirmar"])) {
+		try {
+			$data = ['nombre' => $_POST["nombre"],'autor' => $_POST["autor"],'genero' => $_POST["genero"],'stock' => $_POST["stock"],'precio' => $precio = $_POST["precio"],'id' => $i+1];
+			$sql = "INSERT into discos(nombre,autor,genero,stock,precio,id) values(:nombre,:autor,:genero,:stock,:precio,:id)";
+			$stmt = $pdo->prepare($sql);
+			$stmt -> execute($data);
+			echo "INSERTADO CON EXITO";
+		} catch(Exception $e) {
+			echo "Error al añadir producto, causa: " . $e;
+		}
+	}
+	if (isset($_POST["quitar"])) {
+		echo "INTRODUZCA EL NOMBRE DEL DISCO A BORRAR<br>";
+		echo "<input type=text name=nombreB><br>";
+		echo "<input type=submit name=borrarP value=Borrar><br>";
+	}
+	if (isset($_POST["borrarP"])) {
+		try {
+			$sql = "DELETE FROM discos WHERE nombre='" . $_POST["nombreB"] . "'";
+			$stmt = $pdo -> prepare($sql);
+			$stmt -> execute();
+			echo "<br>BORRADO CON ÉXITO";
+		} catch (Exception $e) {
+			echo "Error al borrar producto, causa: " . $e;
 		}
 	}
 
