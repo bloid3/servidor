@@ -73,7 +73,7 @@
 		}
 	}
 	if (isset($_POST["quitar"])) {
-		echo "INTRODUZCA EL NOMBRE DEL DISCO A BORRAR<br>";
+		echo "<br>INTRODUZCA EL NOMBRE DEL DISCO A BORRAR<br>";
 		echo "<input type=text name=nombreB><br>";
 		echo "<input type=submit name=borrarP value=Borrar><br>";
 	}
