@@ -87,8 +87,6 @@
 			echo "Error al borrar producto, causa: " . $e;
 		}
 	}
-
-	
 	echo "</form>";
 	
 ?>
