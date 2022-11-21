@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -11,10 +12,11 @@
 	<p>Nombre: <input type="text" name="nombre"></p>
 	</form>
 	<?php
-	if (!array_key_exists("nombre", $_REQUEST) || $_REQUEST["nombre"] == "")
+	if (!array_key_exists("nombre", $_REQUEST) || $_REQUEST["nombre"] == "") {
 		echo "Hola Mundo";
-	else 
+	} else {
 		echo "Hola $_REQUEST[nombre]";
+	}
 	?>
 </body>
 </html>
