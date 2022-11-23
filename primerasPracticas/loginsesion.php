@@ -33,7 +33,7 @@
 			echo "<br>";
 			echo "<a href=http://www.pabloweb.com/workspace/servidor/actualizaciondatos.php>Actualización de datos</a>";
 			echo "<br>";
-			echo "<a href=http://www.pabloweb.com/workspace/servidor/carritosesion.php>Carrito de la compra</a>";
+			echo "<a href=http://www.pabloweb.com/workspace/servidor/primerasPracticas/carritosesion.php>Carrito de la compra</a>";
 		}
 	?>
 </body>

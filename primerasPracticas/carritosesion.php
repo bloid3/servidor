@@ -2,7 +2,7 @@
 <?php
 	session_start();
 	if ($_SESSION["user"]  != "pablo" || $_SESSION["pass"] != "12345")
-		header("Location: http://www.pabloweb.com/workspace/servidor/loginsesion.php");
+		header("Location: http://www.pabloweb.com/workspace/servidor/primerasPracticas/loginsesion.php");
 ?>
 <html lang="en">
 <head>
